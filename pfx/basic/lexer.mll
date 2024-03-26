@@ -10,6 +10,8 @@ let newline = (['\n' '\r'] | "\r\n")
 let blank = [' ' '\014' '\t' '\012']
 let not_newline_char = [^ '\n' '\r']
 let digit = ['0'-'9']
+let operator = ['+' '-' '*' '/']
+let parentheses = ['(' ')']
 
 rule token = parse
   (* newlines *)
@@ -18,8 +20,6 @@ rule token = parse
   | blank + { token lexbuf }
   (* end of file *)
   | eof      { EOF }
-  (* comments *)
-  | "--" not_newline_char*  { token lexbuf }
   (* integers *)
   | digit+ as nb           { mk_int nb }
   (* commands  *)
@@ -31,5 +31,8 @@ rule token = parse
   | "MUL"       { MUL }
   | "DIV"       { DIV }
   | "REM"       { REM }
+(* parentheses *)
+  | '('        { LPAREN }
+  | ')'        { RPAREN }
   (* illegal characters *)
   | _ as c                  { failwith (Printf.sprintf "Illegal character '%c': " c) }
