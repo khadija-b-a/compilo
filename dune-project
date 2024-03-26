@@ -1,2 +1,5 @@
-(lang dune 2.9)
-(using menhir 2.1)
+(lang dune 2.5)
+
+(name langlog)
+
+(using menhir 2.0)
