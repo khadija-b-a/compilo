@@ -1,5 +1,19 @@
 {
-  open Parser
+  open Parser 
+
+  let print_token = function 
+  | EOF   -> print_string "EOF " 
+  | ADD   -> print_string "ADD "
+  | SUB   -> print_string "SUB "
+  | MUL   -> print_string "MUL "
+  | DIV   -> print_string "DIV "
+  | REM   -> print_string "REM "
+  | POP   -> print_string "POP "
+  | SWAP  -> print_string "SWAP "
+  | PUSH  -> print_string "PUSH "
+  | INT n -> print_int n ; print_string " " 
+  | LPAREN -> print_string "LPAREN "
+  | RPAREN -> print_string "RPAREN "
 
   let mk_int nb =
     try INT (int_of_string nb)
@@ -35,4 +49,4 @@ rule token = parse
   | '('        { LPAREN }
   | ')'        { RPAREN }
   (* illegal characters *)
-  | _ as c                  { failwith (Printf.sprintf "Illegal character '%c': " c) }
+  | _ as c     { failwith (Printf.sprintf "Illegal character '%c': " c) }
