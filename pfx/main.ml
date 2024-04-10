@@ -1,14 +1,15 @@
-open BasicPFX.lexer
+open BasicPfx.Lexer
+open Utils.Location
 
 let rec examine_all lexbuf =
-    let result = token lexbuf in
-    print_token result;
-    print_string " ";
-    match result with
-    | EOF -> ()
-    | _   -> examine_all lexbuf
+  let result = token lexbuf in
+  print_token result;
+  print_string " ";
+  match result with
+  | EOF -> ()
+  | _   -> examine_all lexbuf
 
-  let compile file =
+let compile file =
   print_string ("File "^file^" is being treated!\n");
   try
     let input_file = open_in file in
@@ -16,7 +17,12 @@ let rec examine_all lexbuf =
     examine_all lexbuf;
     print_newline ();
     close_in (input_file)
-  with Sys_error _ ->
+  with
+  | Sys_error _ ->
     print_endline ("Can't find file '" ^ file ^ "'")
+  | Error (msg, loc) ->
+    print_endline ("Error: " ^ msg);
+    print_endline "Location:";
+    print loc
 
-  let _ = Arg.parse [] compile ""
+let _ = Arg.parse [] compile ""
