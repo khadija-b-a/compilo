@@ -1,5 +1,17 @@
 {
-  open Parser 
+ open Utils
+  
+  type token =
+  | EOF
+  | ADD
+  | SUB
+  | MUL
+  | DIV
+  | REM
+  | POP
+  | SWAP
+  | PUSH 
+  | INT of int
 
   let print_token = function 
   | EOF   -> print_string "EOF " 
@@ -12,32 +24,32 @@
   | SWAP  -> print_string "SWAP "
   | PUSH  -> print_string "PUSH "
   | INT n -> print_int n ; print_string " " 
-  | LPAREN -> print_string "LPAREN "
-  | RPAREN -> print_string "RPAREN "
 
-  let mk_int nb =
+  let mk_int nb loc=
     try INT (int_of_string nb)
-    with Failure _ -> failwith (Printf.sprintf "Illegal integer '%s': " nb)
-}
+    with Failure _ -> raise (Location.Error(Printf.sprintf "Illegal integer '%s': " nb,loc))
 
+}
 let newline = (['\n' '\r'] | "\r\n")
 let blank = [' ' '\014' '\t' '\012']
 let not_newline_char = [^ '\n' '\r']
 let digit = ['0'-'9']
-let operator = ['+' '-' '*' '/']
-let parentheses = ['(' ')']
+
+
 
 rule token = parse
   (* newlines *)
-  | newline { token lexbuf }
+  | newline { Location.incr_line lexbuf; token lexbuf }
   (* blanks *)
   | blank + { token lexbuf }
   (* end of file *)
   | eof      { EOF }
+  | "--" not_newline_char*  { token lexbuf }
   (* integers *)
-  | digit+ as nb           { mk_int nb }
+  | digit+ as nb { mk_int nb (Location.curr lexbuf) }
+  (* comments *)
   (* commands  *)
-  | "PUSH"      { PUSH }
+  | "PUSH"  { PUSH }
   | "POP"       { POP }
   | "SWAP"      { SWAP }
   | "ADD"       { ADD }
@@ -45,8 +57,5 @@ rule token = parse
   | "MUL"       { MUL }
   | "DIV"       { DIV }
   | "REM"       { REM }
-(* parentheses *)
-  | '('        { LPAREN }
-  | ')'        { RPAREN }
   (* illegal characters *)
-  | _ as c     { failwith (Printf.sprintf "Illegal character '%c': " c) }
+  | _ as c { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) }
