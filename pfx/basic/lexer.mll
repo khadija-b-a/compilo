@@ -30,9 +30,6 @@
     try INT (int_of_string nb)
     with Failure _ -> raise (Location.Error(Printf.sprintf "Illegal integer '%s': " nb,loc))
   
-  (*let mk_push nb lexbuf =
-  try PUSH (int_of_string nb lexbuf)
-  with Failure _ -> Location.raise_error("Illegal integer: " ^ nb) lexbuf*)
 }
 
 let newline = (['\n' '\r'] | "\r\n")
