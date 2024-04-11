@@ -1,3 +1,4 @@
+(* added file in the question 6.2 *)
 open BasicPfx.Lexer
 open Utils.Location
 
@@ -25,4 +26,4 @@ let compile file =
     print_endline "Location:";
     print loc
 
-let _ = Arg.parse [] compile ""
+let _ = Arg.parse [] compile "" 

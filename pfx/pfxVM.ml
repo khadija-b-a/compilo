@@ -1,6 +1,7 @@
 (* Entry point of the program, should contain your main function: here it is
  named parse_eval, it is the function provided after question 6.1 *)
 open BasicPfx
+open Utils
 
 (* The arguments, initially empty *)
 let args = ref []
@@ -18,7 +19,10 @@ let parse_eval file =
       with Parser.Error -> print_string "Syntax error"
     end;
     close_in (input_file)
-  with Sys_error _ -> print_endline ("Can't find file '" ^ file ^ "'")
+  with 
+    | Location.Error (msg, loc) ->
+      Printf.printf "Error: %s at %s\n" msg (Location.string_of loc);
+    | Sys_error _ -> print_endline ("Can't find file '" ^ file ^ "'")
 
 
 
