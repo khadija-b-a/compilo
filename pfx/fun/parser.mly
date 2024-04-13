@@ -10,7 +10,7 @@
 
 (* enter tokens here, they should begin with %token *)
 %token EOF
-%token ADD SUB MUL DIV REM POP SWAP
+%token ADD SUB MUL DIV REM POP SWAP EXEC GET LPAREN RPAREN
 %token <int> INT
 %token <int> PUSH 
 
@@ -44,4 +44,7 @@ instruction :
   | POP        { Pop }
   | SWAP       { Swap }
   | PUSH n=INT { Push n }
+  | EXEC       { Exec }
+  | GET        { Get }
+  | LPAREN instruc=instruction_seq RPAREN {DoExec(instruc)}
 %%

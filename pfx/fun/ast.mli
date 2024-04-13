@@ -8,6 +8,9 @@ type command =
   | Mul
   | Div
   | Rem
+  | Exec
+  | Get
+  | DoExec of command list
 
 (* The type for programs *)
 type program = int * command list

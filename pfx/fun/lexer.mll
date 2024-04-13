@@ -59,5 +59,9 @@ rule token = parse
   | "MUL"       { MUL }
   | "DIV"       { DIV }
   | "REM"       { REM }
+  | "EXEC"      { EXEC }
+  | "GET"       { GET }
+  | "("         { LPAREN }
+  | ")"         { RPAREN }
   (* illegal characters *)
   | _ as c { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) }
