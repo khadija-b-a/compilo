@@ -26,7 +26,7 @@ let rec string_of_command = function
   | Rem -> "Rem"
   | Exec -> "Exec"
   | Get -> "Get"
-  |DoExec(instruc)-> "(" ^ String.concat " " (List.map string_of_command instruc) ^ ")"
+  | DoExec(instruc)-> "(" ^ String.concat " " (List.map string_of_command instruc) ^ ")"
 
 
 
