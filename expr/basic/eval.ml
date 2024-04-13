@@ -12,5 +12,6 @@ let rec eval env = function
        | _, v -> (BinOp.eval op) (eval env e1) v
      end
   | Uminus e -> - (eval env e)
+  (*Prendre en compte le dernier cas*)
   | App (_, _) | Fun (_, _) -> (* Ne pas évaluer les fonctions et les applications *)
       raise (RuntimeError "Functions and applications cannot be evaluated directly")
