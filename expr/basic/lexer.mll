@@ -34,9 +34,10 @@ rule token = parse
   | "%"      { MOD }
   | "("      { LPAR }
   | ")"      { RPAR }
+  (* For function support *)
+  | "fun"    { FUN }
+  | "->"     { RA }
   (* identifiers *)
   | ident as id { IDENT id }
   (* illegal characters *)
   | _ as c  { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) }
-
-
