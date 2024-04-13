@@ -15,19 +15,53 @@ let step state =
   | [], _ -> Error("Nothing to step",state)
   (* Valid configurations *)
   | Push n :: q, stack -> Ok (q, n :: stack)
-  | Pop :: q, _ :: stack -> Ok (q, stack)
-  | Swap :: q, x :: y :: stack -> Ok (q, y :: x :: stack)
-  | Add :: q, x :: y :: stack -> Ok (q, (x + y) :: stack)
-  | Sub :: q, x :: y :: stack -> Ok (q, (y - x) :: stack)
-  | Mul :: q, x :: y :: stack -> Ok (q, (x * y) :: stack)
-  | Div :: q, x :: y :: stack ->
-      if x = 0 then Error ("Division by zero", state)
-      else Ok (q, (y / x) :: stack)
-  | Rem :: q, x :: y :: stack ->
-      if x = 0 then Error ("Remainder with zero divisor", state)
-      else Ok (q, (y mod x) :: stack)
-  (* Invalid configurations *)
-  | _, _ -> Error ("Invalid configuration", state)
+  
+  | Pop :: q, stack -> 
+  ( match stack with 
+    | _ :: s -> Ok (q, s)
+    | _ -> Error("Empty stack", state)
+  ) 
+
+  | Swap :: q, stack -> 
+  ( match stack with 
+    | x :: y :: s -> Ok (q, y :: x :: s)
+    | _ -> Error("Not enough arguments for SWAP", state)
+  )
+
+  | Add :: q, stack ->
+    (match stack with
+    | x :: y :: s -> Ok (q, (x + y) :: s)
+    | _ -> Error("Not enough arguments for ADD", state)
+    )
+
+  | Sub :: q, stack ->
+  ( match stack with 
+    | x :: y :: s -> Ok (q, (x-y) :: s)
+    | _ -> Error("Not enough arguments for SUB", state)
+  ) 
+
+  | Mul :: q, stack -> 
+  ( match stack with 
+    | x :: y :: s -> Ok (q, (x*y) :: s)
+    | _ -> Error("Not enough arguments for MUL", state)
+  )
+
+  | Div :: q, stack ->
+    (match stack with
+    | x :: y :: s ->
+        if x = 0 then Error ("Division by zero", ([], stack))
+        else Ok (q, (y / x) :: s)
+    | _ -> Error("Not enough arguments for DIV", state)
+    )
+
+  | Rem :: q, stack ->
+  (match stack with
+    | x :: y :: s ->
+      if x = 0 then Error ("Remainder with zero divisor", ([], stack))
+      else Ok (q, (y mod x) :: s)
+    | _ -> Error("Not enough arguments for REM", state))
+
+
 
 let eval_program (numargs, cmds) args =
   let rec execute = function
