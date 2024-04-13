@@ -1,3 +1,3 @@
-(executable
- (name pfxVM)
- (libraries utils funPfx))
+(executables
+ (names funVM pfxVM)
+ (libraries utils funPfx basicPfx))
