@@ -7,7 +7,7 @@ open Ast
   | Var _ -> failwith "Not yet supported"*)
 
 
-
+(*Implemntation of the generate function of Exercice 5*)
 let rec generate (e : Ast.expression) : BasicPfx.Ast.command list = 
   match e with 
   | Const n -> [Push n]

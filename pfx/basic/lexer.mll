@@ -1,7 +1,8 @@
 {
  open Parser
- open Utils
+ open Utils (*to be able to use Location*)
   
+  (*Commented code is the implemntation of Exercice 6*)
   (*type token =
   | EOF
   | ADD
@@ -28,7 +29,7 @@
 
   let mk_int nb loc=
     try INT (int_of_string nb)
-    with Failure _ -> raise (Location.Error(Printf.sprintf "Illegal integer '%s': " nb,loc))
+    with Failure _ -> raise (Location.Error(Printf.sprintf "Illegal integer '%s': " nb,loc)) (*Modified code for Exercice 7*)
   
 }
 
@@ -41,14 +42,14 @@ let digit = ['0'-'9']
 
 rule token = parse
   (* newlines *)
-  | newline { Location.incr_line lexbuf; token lexbuf }
+  | newline { Location.incr_line lexbuf; token lexbuf } (*Modified code for Exercice 7*)
   (* blanks *)
   | blank + { token lexbuf }
   (* end of file *)
   | eof      { EOF }
-  | "--" not_newline_char*  { token lexbuf }
+  | "--" not_newline_char*  { token lexbuf } (*Modified code for Exercice 7*)
   (* integers *)
-  | digit+ as nb { mk_int nb (Location.curr lexbuf) }
+  | digit+ as nb { mk_int nb (Location.curr lexbuf) } (*Modified code for Exercice 7*)
   (* comments *)
   (* commands  *)
   | "PUSH "+ (digit+ as nb) {PUSH (int_of_string nb)}
@@ -60,4 +61,4 @@ rule token = parse
   | "DIV"       { DIV }
   | "REM"       { REM }
   (* illegal characters *)
-  | _ as c { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) }
+  | _ as c { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) } (*Modified code for Exercice 7*)

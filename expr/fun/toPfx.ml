@@ -1,15 +1,6 @@
 open Ast
 open FunPfx.Ast
 
-
-(*let generate = function
-  | Const _ -> failwith "To implement"
-  | Binop(_,_,_) -> failwith "To implement"
-  | Uminus _ -> failwith "To implement"
-  | Var _ -> failwith "Not yet supported"*)
-
-
-
 (*let rec generate (e : Ast.expression) : BasicPfx.Ast.command list = 
   match e with 
   | Const n -> [Push n]
@@ -27,6 +18,8 @@ open FunPfx.Ast
   | Var _ -> failwith "Not yet supported"*)
 
 
+(*New version of generate function to supporte the new instructions
+as asked in the exercice 10*)
 let generate env dpth =
   let binop_to_Pfx = function
     | BinOp.Badd -> Add

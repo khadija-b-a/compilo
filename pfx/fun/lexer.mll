@@ -59,6 +59,7 @@ rule token = parse
   | "MUL"       { MUL }
   | "DIV"       { DIV }
   | "REM"       { REM }
+  (*Added code for the Exercice 9*)
   | "EXEC"      { EXEC }
   | "GET"       { GET }
   | "("         { LPAREN }

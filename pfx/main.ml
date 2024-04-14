@@ -1,4 +1,5 @@
-(* added file in the question 6.2 *)
+(* added file in the question 6.2  to be able 
+to test the Lexer without the parser*)
 open BasicPfx.Lexer
 open Utils.Location
 

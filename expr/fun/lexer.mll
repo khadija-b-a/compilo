@@ -39,7 +39,8 @@ rule token = parse
   | "->"     { RA }
   (* identifiers *)
   | ident as id { IDENT id }
-  (*For Exercice 11*)
+  (*The Syntactic sugar For Exercice 11 to be able to 
+  support let definition*)
   | "let" { LET }
   | "=" { EQUAL }
   | "in" { IN }

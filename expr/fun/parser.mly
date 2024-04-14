@@ -29,7 +29,8 @@ expr:
   (* For function support *)
   | FUN id=IDENT RA e=expr %prec FUN   { Fun(id,e) }
   | e1=simple_expr e2=simple_expr      { App(e1,e2) }
-  (*Modification for exercice 11*)
+  (*Modification For Exercice 11 to be able to 
+  support let definition*)
   | LET id=IDENT EQUAL e1=expr IN e2=expr { App(Fun(id, e2), e1) }
 
 
