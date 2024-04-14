@@ -39,6 +39,10 @@ rule token = parse
   | "->"     { RA }
   (* identifiers *)
   | ident as id { IDENT id }
+  (*For Exercice 11*)
+  | "let" { LET }
+  | "=" { EQUAL }
+  | "in" { IN }
   (* illegal characters *)
   | _ as c  { raise (Location.Error(Printf.sprintf "Illegal character '%c': " c, Location.curr lexbuf)) }
 
